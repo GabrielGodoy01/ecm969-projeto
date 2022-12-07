@@ -1,5 +1,6 @@
 (ns ecm969-projeto.core (:require [io.pedestal.http :as http]
                                   [environ.core :refer [env]]
+                                  [ecm969-projeto.db :refer [db-posts]]
                                   [io.pedestal.http.route :as route]))
 
 (def posts [{:id "0" :text "Este é meu primeiro Post!" :user "0"}
@@ -7,9 +8,6 @@
              {:id "2" :text "Odeio este Gabriel!!!" :user "1"}
              {:id "3" :text "Clojure reina!!!!!!!!!!!" :user "1"}
              {:id "4" :text "Obrigado Cidinho!" :user "1"}])
-
-(def users [{:id "0" :name "Gabriel" :age 22 :posts ["1" "1"]}
-            {:id "1" :name "Ana" :age 22 :posts ["2" "3" "4"]}])
 
 (defn get-post [{{:keys [post]} :path-params
                  {:keys [extended]} :query-params}]
@@ -19,10 +17,10 @@
     {:status 200 :body (if extended post (dissoc post :id))}
     {:status 404}))
 
-(defn get-posts [_] {:status 200 :body posts})
+(defn get-posts [_] {:status 200 :body db-posts})
 
-(def routes #{["/posts/:post" :get get-post :route-name :get-hero]
-              ["/posts" :get get-posts :route-name :get-heroes]})
+(def routes #{["/posts/:post" :get get-post :route-name :get-post]
+              ["/posts" :get get-posts :route-name :get-posts]})
 
 (def service-map (-> {::http/routes routes
                       ::http/type   :immutant
