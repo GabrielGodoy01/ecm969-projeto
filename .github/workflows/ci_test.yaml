@@ -38,16 +38,13 @@ jobs:
         last_tag=$(git describe --abbrev=0 --tags)
         if [[ $last_commit_msg == *"fix:"* ]]; then
           new_version=$last_tag.1
-          env NEW_VERSION=$new_version
         elif [[ $last_commit_msg == *"feat:"* ]]; then
           new_version=$last_tag.1
-          env NEW_VERSION=$new_version
         else
           new_version=$last_tag.0
-          env NEW_VERSION=$new_version
         fi
         git config --global user.email "gabriel.godoybz@hotmail.com"
         git config --global user.name "GabrielGodoy01"
-        git tag NEW_VERSION
+        git tag $new_version
         git push origin --tags
         echo "New version: $new_version"
