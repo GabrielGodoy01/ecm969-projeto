@@ -21,6 +21,9 @@ jobs:
 
     - name: Get last commit message
       run: git log -1 --pretty=%B
+    
+    - name: Show all tags
+      run: git tag
 
     - name: Get last tag
       run: |
