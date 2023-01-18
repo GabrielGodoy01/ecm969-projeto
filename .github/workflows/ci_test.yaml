@@ -21,11 +21,8 @@ jobs:
 
     - name: Increment version
       run: |
-        # Get the last commit message and last tag
         last_commit_msg=$(git log -1 --pretty=%B)
         last_tag=$(git describe --abbrev=0 --tags)
-
-        # Increment the version based on the last commit message and last tag
         if [[ $last_commit_msg == *"fix:"* ]]; then
           new_version=$last_tag.1
         elif [[ $last_commit_msg == *"feat:"* ]]; then
@@ -44,8 +41,8 @@ jobs:
 
     - name: Commit and push changes
       run: |
-        git config --global user.email "github-actions@example.com"
-        git config --global user.name "GitHub Actions"
+        git config --global user.email "gabriel.godoybz@hotmail.com"
+        git config --global user.name "GabrielGodoy01"
         git add version.txt
         git commit -m "Increment version to $new_version"
         git push
