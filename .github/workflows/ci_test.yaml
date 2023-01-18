@@ -17,7 +17,7 @@ jobs:
       run: npm install semver
       
     - name: Get latest tag
-      run: git describe --abbrev=0 --tags > latest_tag.txt
+      run: git describe --tags --always > latest_tag.txt
       id: latest_tag
       
     - name: Set latest tag env
