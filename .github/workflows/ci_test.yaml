@@ -39,16 +39,9 @@ jobs:
 
         echo "New version: $new_version"
 
-    - name: Update version in code
-      run: |
-        # Update the version in your code
-        # Replace "version.txt" with the file that contains your current version
-        echo $new_version > version.txt
-
-    - name: Commit and push changes
+    - name: Tag
       run: |
         git config --global user.email "gabriel.godoybz@hotmail.com"
         git config --global user.name "GabrielGodoy01"
-        git add version.txt
-        git commit -m "Increment version to $new_version"
-        git push
+        git tag $new_version
+        git push origin --tags
