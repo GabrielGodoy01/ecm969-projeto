@@ -29,5 +29,3 @@
                      ))
 
 (defn -main [_] (-> service-map http/create-server http/start))
-
-teste gpt
