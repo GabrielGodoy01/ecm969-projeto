@@ -23,12 +23,12 @@ jobs:
       run: git log -1 --pretty=%B
 
     - name: Get last tag
-      run: git describe --always
+      run: git describe --abbrev=0 --tags
 
     - name: Increment version
       run: |
         last_commit_msg=$(git log -1 --pretty=%B)
-        last_tag=$(git describe --always)
+        last_tag=$(git describe --abbrev=0 --tags)
         if [[ $last_commit_msg == *"fix:"* ]]; then
           new_version=$last_tag.1
         elif [[ $last_commit_msg == *"feat:"* ]]; then
