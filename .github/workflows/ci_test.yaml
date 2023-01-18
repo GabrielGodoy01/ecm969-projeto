@@ -24,11 +24,9 @@ jobs:
       run: echo ${{ steps.latest_tag.outputs.latest_tag}} | sed 's/v//' | tr -d '\n' > latest_tag.txt
       env:
         LATEST_TAG: ${{ steps.latest_tag.outputs.latest_tag }}
-
+        
     - name: Bump version
       run: |
-        git config --global user.email "gabriel.godoybz@hotmail.com"
-        git config --global user.name "GabrielGodoy01"
         VERSION=$(npm version patch --no-git-tag-version)
         echo $VERSION > package.json
         git add package.json
