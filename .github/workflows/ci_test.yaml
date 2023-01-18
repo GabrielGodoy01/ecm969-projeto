@@ -44,8 +44,8 @@ jobs:
 
     - name: Commit and push changes
       run: |
-        git config --global user.email "gabriel.godoybz@hotmail.com"
-        git config --global user.name "GabrielGodoy01"
+        git config --global user.email "github-actions@example.com"
+        git config --global user.name "GitHub Actions"
         git add version.txt
         git commit -m "Increment version to $new_version"
         git push
