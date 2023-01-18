@@ -52,3 +52,4 @@ jobs:
         git config --global user.name "GabrielGodoy01"
         git tag $new_version
         git push origin --tags
+        echo "New version: $new_version"
