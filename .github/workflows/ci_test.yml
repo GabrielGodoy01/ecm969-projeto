@@ -37,7 +37,7 @@ jobs:
         VERSION=$(git describe --abbrev=0 --tags)
         LAST_COMMIT_MESSAGE=$(git log -1 --pretty=%B)
         if [[ $LAST_COMMIT_MESSAGE == *"major"* ]]; then
-            major=$(echo $VERSION | awk -F. '{$1;print}')
+            major=$(echo $VERSION | awk -F. '{$3;print}')
             major=$((major + 1))
             NEW_VERSION="v$major.0.0"
         elif [[ $LAST_COMMIT_MESSAGE == *"minor"* ]]; then
