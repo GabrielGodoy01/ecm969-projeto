@@ -1,0 +1,46 @@
+name: Tag version
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  tag:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Install SemVer
+      run: npm install semver
+      
+    - name: Get latest tag
+      run: git describe --tags --abbrev=0 > latest_tag.txt
+      id: latest_tag
+      
+    - name: Print latest tag
+      run: cat latest_tag.txt
+      
+    - name: Set latest tag env
+      run: echo ::set-env name=LATEST_TAG::$(cat latest_tag.txt)
+      id: set_latest_tag
+
+    - name: Bump version
+      run: |
+        git config --global user.email "gabriel.godoybz@hotmail.com"
+        git config --global user.name "GabrielGodoy01"
+        VERSION=$(npm version patch --no-git-tag-version)
+        echo $VERSION > package.json
+        git add package.json
+        COMMIT_MESSAGE=$(git log -1 --pretty=%B)
+        if echo $COMMIT_MESSAGE | grep -q "major"; then
+            VERSION=$(npm version major --no-git-tag-version)
+        elif echo $COMMIT_MESSAGE | grep -q "minor"; then
+            VERSION=$(npm version minor --no-git-tag-version)
+        fi
+        git add package.json
+        git commit -m "Bump version to ${{ steps.set_latest_tag.outputs.LATEST_TAG }}-$VERSION"
+        git tag "${{ steps.set_latest_tag.outputs.LATEST_TAG }}-$VERSION"
+        git push origin "${{ steps.set_latest_tag.outputs.LATEST_TAG }}-$VERSION"
