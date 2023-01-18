@@ -1,25 +1,51 @@
-name: Tag version
+name: Increment Version
 
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
-  tag:
+  increment_version:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
+    - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Install SemVer
-      run: npm install semver
-      
-    - name: Version  
-      id: version  
-      uses: juliansangillo/tag-version@v1  
-      with:  
-          production-branch: master  
-          test-branch: test  
-          dev-branch: develop 
+    - name: Get last commit message
+      run: git log -1 --pretty=%B
+
+    - name: Get last tag
+      run: git describe --abbrev=0 --tags
+
+    - name: Increment version
+      run: |
+        # Get the last commit message and last tag
+        last_commit_msg=$(git log -1 --pretty=%B)
+        last_tag=$(git describe --abbrev=0 --tags)
+
+        # Increment the version based on the last commit message and last tag
+        if [[ $last_commit_msg == *"fix:"* ]]; then
+          new_version=$last_tag.1
+        elif [[ $last_commit_msg == *"feat:"* ]]; then
+          new_version=$last_tag.1
+        else
+          new_version=$last_tag.0
+        fi
+
+        echo "New version: $new_version"
+
+    - name: Update version in code
+      run: |
+        # Update the version in your code
+        # Replace "version.txt" with the file that contains your current version
+        echo $new_version > version.txt
+
+    - name: Commit and push changes
+      run: |
+        git config --global user.email "gabriel.godoybz@hotmail.com"
+        git config --global user.name "GabrielGodoy01"
+        git add version.txt
+        git commit -m "Increment version to $new_version"
+        git push
