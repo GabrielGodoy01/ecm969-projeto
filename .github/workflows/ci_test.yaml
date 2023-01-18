@@ -23,7 +23,10 @@ jobs:
       run: git log -1 --pretty=%B
 
     - name: Get last tag
-      run: git describe --abbrev=0 --tags
+      run: |
+        git config --global user.email "gabriel.godoybz@hotmail.com"
+        git config --global user.name "GabrielGodoy01"
+        git describe --abbrev=0 --tags
 
     - name: Increment version
       run: |
