@@ -30,4 +30,4 @@
 
 (defn -main [_] (-> service-map http/create-server http/start))
 
-teste major 4.0
+teste major
