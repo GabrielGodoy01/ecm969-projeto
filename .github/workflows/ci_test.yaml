@@ -17,7 +17,7 @@ jobs:
       run: git log -1 --pretty=%B
 
     - name: Get last tag
-      run: git describe --abbrev=0 --tags
+      run: git describe --always
 
     - name: Increment version
       run: |
