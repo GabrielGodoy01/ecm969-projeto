@@ -39,7 +39,7 @@ jobs:
         if [[ $LAST_COMMIT_MESSAGE == *"major"* ]]; then
             major=$(echo $VERSION | awk -F. '{print $1}')
             major=$((major + 1))
-            NEW_VERSION="$major.$(echo $VERSION | awk -F. '{print $2"."$3}')"
+            NEW_VERSION="$major.0.0"
         elif [[ $LAST_COMMIT_MESSAGE == *"minor"* ]]; then
             NEW_VERSION=$(echo $VERSION | awk -F. -v OFS=. '{$2+=1;print}')
         else
