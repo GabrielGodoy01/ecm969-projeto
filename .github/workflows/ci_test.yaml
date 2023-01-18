@@ -16,27 +16,10 @@ jobs:
     - name: Install SemVer
       run: npm install semver
       
-    - name: Get latest tag
-      run: git describe --tags --always > latest_tag.txt
-      id: latest_tag
-      
-    - name: Set latest tag env
-      run: echo ${{ steps.latest_tag.outputs.latest_tag}} | sed 's/v//' | tr -d '\n' > latest_tag.txt
-      env:
-        LATEST_TAG: ${{ steps.latest_tag.outputs.latest_tag }}
-        
-    - name: Bump version
-      run: |
-        VERSION=$(npm version patch --no-git-tag-version)
-        echo $VERSION > package.json
-        git add package.json
-        COMMIT_MESSAGE=$(git log -1 --pretty=%B)
-        if echo $COMMIT_MESSAGE | grep -q "major"; then
-            VERSION=$(npm version major --no-git-tag-version)
-        elif echo $COMMIT_MESSAGE | grep -q "minor"; then
-            VERSION=$(npm version minor --no-git-tag-version)
-        fi
-        git add package.json
-        git commit -m "Bump version to ${{ env.LATEST_TAG }}-$VERSION"
-        git tag "${{ env.LATEST_TAG }}-$VERSION"
-        git push origin "${{ env.LATEST_TAG }}-$VERSION"
+    - name: Version  
+      id: version  
+      uses: juliansangillo/tag-version@v1  
+      with:  
+          production-branch: master  
+          test-branch: test  
+          dev-branch: develop 
