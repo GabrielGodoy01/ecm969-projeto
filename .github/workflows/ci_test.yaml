@@ -21,7 +21,7 @@ jobs:
       id: latest_tag
       
     - name: Set latest tag env
-      run: echo $(cat latest_tag.txt) > latest_tag.txt
+      run: echo ${{ steps.latest_tag.outputs.latest_tag}} | sed 's/v//' | tr -d '\n' > latest_tag.txt
       env:
         LATEST_TAG: ${{ steps.latest_tag.outputs.latest_tag }}
 
