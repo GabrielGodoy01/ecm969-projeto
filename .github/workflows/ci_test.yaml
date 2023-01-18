@@ -12,6 +12,12 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
+      
+    - name: Show branches
+      run: git branch -a
+    
+    - name: Check if repository is empty
+      run: git log -1
 
     - name: Get last commit message
       run: git log -1 --pretty=%B
